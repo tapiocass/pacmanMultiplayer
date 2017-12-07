@@ -2,7 +2,7 @@ var Pacman = function(game, key) {
     this.game = game;
     this.key = key;
 
-    this.forca = 160;
+    this.forca = 120;
     this.isDead = false;
     this.isAnimatingDeath = false;
     this.keyPressTimer = 0;
@@ -22,7 +22,7 @@ var Pacman = function(game, key) {
     this.posicao = Phaser.NONE;
 
     this.keyPressTimer = 0;
-    this.KEY_COOLING_DOWN_TIME = 750;
+    this.KEY_COOLING_DOWN_TIME = 10;
 
     this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 85, key, 0);
     this.sprite.anchor.setTo(0.5);
@@ -112,6 +112,9 @@ Pacman.prototype.update = function() {
             this.sprite.play('munch');
             this.turn();
         }
+
+
+
     } else {
         this.move(Phaser.NONE);
         if (!this.isAnimatingDeath && this.sprite.x !==220 && this.sprite.y !== 420) {
@@ -132,6 +135,7 @@ Pacman.prototype.movimentaPacman = function(cursors) {
     if (cursors.left.isDown && this.current !== Phaser.LEFT)
     {
         this.posicao = Phaser.LEFT;
+
     }
     else if (cursors.right.isDown && this.current !== Phaser.RIGHT)
     {
@@ -161,29 +165,31 @@ Pacman.prototype.movimentaPacman = function(cursors) {
 
 Pacman.prototype.movimentaPacmanJoystick = function (pad) {
 
-    if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT)|| pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP) || pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)) {
+    if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT)|| pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) ||
+        pad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP) || pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)) {
         this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
     }
 
-    if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) && this.current !== Phaser.LEFT)
+    if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) ||
+            pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) && this.current !== Phaser.LEFT)
     {
-        console.log("Esquerda");
         this.posicao = Phaser.LEFT;
+
     }
-    else if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)  && this.current !== Phaser.RIGHT)
+    else if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) ||
+            pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)  && this.current !== Phaser.RIGHT)
     {
-        console.log("Direita");
         this.posicao = Phaser.RIGHT;
     }
 
-    if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1) && this.current !== Phaser.UP)
+    if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP) ||
+            pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1) && this.current !== Phaser.UP)
     {
-        console.log("Cima");
         this.posicao = Phaser.UP;
     }
-    else if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1) && this.current !== Phaser.DOWN)
+    else if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN) ||
+            pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1) && this.current !== Phaser.DOWN)
     {
-        console.log("Baixo");
         this.posicao = Phaser.DOWN;
     }
 
@@ -272,8 +278,11 @@ Pacman.prototype.turn = function () {
 
 Pacman.prototype.verificaDirecao = function (turnTo) {
 
+
+
     if (this.turning === turnTo || this.direcao[turnTo] === null || this.direcao[turnTo].index !== this.safetile)
     {
+
         return;
     }
 
@@ -285,7 +294,9 @@ Pacman.prototype.verificaDirecao = function (turnTo) {
     }
     else
     {
+
         this.turning = turnTo;
+
 
         this.turnPoint.x = (this.marker.x * this.tamanhomaze) + (this.tamanhomaze / 2);
         this.turnPoint.y = (this.marker.y * this.tamanhomaze) + (this.tamanhomaze / 2);

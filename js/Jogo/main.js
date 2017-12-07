@@ -1,4 +1,4 @@
-   var game = new Phaser.Game(1800, 1100, Phaser.AUTO, "game");
+   var game = new Phaser.Game(1800, 1090, Phaser.AUTO, "game");
 
 var mainPacman = function (game) {
     this.map = null;
@@ -13,13 +13,45 @@ var mainPacman = function (game) {
     this.pauseText = null;
     this.musicgame = null;
 
-    this.pacman = null;
-    this.clyde = null;
-    this.pinky = null;
-    this.blinky = null;
-    this.inky = null;
-    this.isClydeOut = false;
-    this.isInkyOut = false;
+    this.pacman1 = null;
+    this.pacman2 = null;
+    this.pacman3 = null;
+    this.pacman4 = null;
+
+    this.clyde1 = null;
+    this.clyde2 = null;
+    this.clyde3 = null;
+    this.clyde4 = null;
+
+    this.pinky1 = null;
+    this.pinky2 = null;
+    this.pinky3 = null;
+    this.pinky4 = null;
+
+    this.blinky1 = null;
+    this.blinky2 = null;
+    this.blinky3 = null;
+    this.blinky4 = null;
+
+    this.inky1 = null;
+    this.inky2 = null;
+    this.inky3 = null;
+    this.inky4 = null;
+
+    this.isClydeOut1 = false;
+    this.isClydeOut2 = false;
+    this.isClydeOut3 = false;
+    this.isClydeOut4 = false;
+
+    this.isInkyOut1 = false;
+    this.isInkyOut2 = false;
+    this.isInkyOut3 = false;
+    this.isInkyOut4 = false;
+
+    this.pad1 = null;
+    this.pad2 = null;
+
+
     this.safetile = 14;
     this.tamanhomaze = 16;
     this.limite= 3;
@@ -30,7 +62,7 @@ var mainPacman = function (game) {
     this.numeroCereja = 1;
     this.vida1 = null;
     this.vida2 = null;
-    this.pad1 = null;
+
 
 
     this.SPECIAL_TILES = [
@@ -85,7 +117,11 @@ var mainPacman = function (game) {
     this.KEY_COOLING_DOWN_TIME = 250;
 
     this.game = game;
-    this.ghosts = [];
+    this.ghosts1 = [];
+    this.ghosts12 = [];
+    this.ghosts13 = [];
+    this.ghosts14 = [];
+
     this.vidas  = [];
 };
 
@@ -146,6 +182,7 @@ mainPacman.prototype = {
         this.ready =  game.add.text(190, 320, "READY!", { font:"bold  26px Courier",  fill: "#faff11"});
         this.gameover =  game.add.text(150, 320, "GAME OVER", { font:"bold  26px Courier",  fill: "#ff3400"});
         this.gameover.visible = false;
+
         if(localStorage.getItem("highscore") != null){
             this.pontuacaomaxima = localStorage.getItem("highscore");
         }
@@ -184,7 +221,7 @@ mainPacman.prototype = {
         this.cantodavitoria = this.add.audio('vitoria');
 
 
-        this.pacman = new Pacman(this, "pacman");
+        this.pacman1 = new Pacman(this, "pacman");
         this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
         this.vida2 = game.add.sprite((50), (17 * 20) + 210, "pacman", 1);
         this.cerejaFruta = game.add.sprite((100)+250, (17 * 20) + 210, "bonussheet", 0);
@@ -193,7 +230,7 @@ mainPacman.prototype = {
         this.vidas.push(this.vida1,this.vida2);
 
 
-        this.pacman.sprite.visible = false;
+        this.pacman1.sprite.visible = false;
 
         this.music = this.add.audio('song');
         this.music.play();
@@ -252,8 +289,8 @@ mainPacman.prototype = {
     },
 
     movimentaPacman: function () {
-        //this.pacman.movimentaPacman(this.cursors);
-       this.pacman.movimentaPacmanJoystick(this.pad1);
+        //this.pacman1.movimentaPacman(this.cursors);
+       this.pacman1.movimentaPacmanJoystick(this.pad1);
 
     },
 
@@ -262,14 +299,14 @@ mainPacman.prototype = {
     },
 
     killPacman: function() {
-        this.pacman.isDead = true;
+        this.pacman1.isDead = true;
         this.stopGhosts();
 
     },
 
     stopGhosts: function() {
-        for (var i=0; i<this.ghosts.length; i++) {
-            this.ghosts[i].mode = this.ghosts[i].STOP;
+        for (var i=0; i<this.ghosts1.length; i++) {
+            this.ghosts1[i].mode = this.ghosts1[i].STOP;
         }
         this.musicgame.stop();
         this.deathSong.play('', 0, 1, false);
@@ -294,7 +331,7 @@ mainPacman.prototype = {
     libertaFantasmas: function(){
 
 
-        this.ghosts[0].mode = "scatter";
+        this.ghosts1[0].mode = "scatter";
         this.sendExitOrder(this.pinky);
 
         this.isClydeOut = false;
@@ -302,7 +339,7 @@ mainPacman.prototype = {
         this.playgame = true;
 
 
-        this.pacman.isAnimatingDeath = false;
+        this.pacman1.isAnimatingDeath = false;
         this.musicgame.play('', 0, 1, true);
 
     },
@@ -314,28 +351,26 @@ mainPacman.prototype = {
         this.playgame = false;
         this.currentMode = 1;
         this.changeModeTimer = 0;
-        this.ghosts[0].ghost.x = 220;
-        this.ghosts[0].ghost.y = 230;
-        this.ghosts[0].ghost.play(Phaser.RIGHT);
+        this.ghosts1[0].ghost.x = 220;
+        this.ghosts1[0].ghost.y = 230;
+        this.ghosts1[0].ghost.play(Phaser.RIGHT);
 
 
 
-        this.ghosts[1].ghost.x = 195;
-        this.ghosts[2].ghost.x = 220;
-        this.ghosts[3].ghost.x = 250;
+        this.ghosts1[1].ghost.x = 195;
+        this.ghosts1[2].ghost.x = 220;
+        this.ghosts1[3].ghost.x = 250;
 
 
 
         for (var i = 1;i<4;i++)
         {
-           this.ghosts[i].ghost.y = 280;
-            this.ghosts[i].isAttacking = false;
-           this.ghosts[i].move(Phaser.LEFT);
-           this.ghosts[i].mode = this.ghosts[i].AT_HOME;
-
-
-            this.ghosts[i].resetSafeTiles();
-           this.ghosts[i].ghostDestination = new Phaser.Point(14 * this.tamanhomaze, 14 * this.tamanhomaze);
+           this.ghosts1[i].ghost.y = 280;
+           this.ghosts1[i].isAttacking = false;
+           this.ghosts1[i].move(Phaser.LEFT);
+           this.ghosts1[i].mode = this.ghosts1[i].AT_HOME;
+           this.ghosts1[i].resetSafeTiles();
+           this.ghosts1[i].ghostDestination = new Phaser.Point(14 * this.tamanhomaze, 14 * this.tamanhomaze);
         }
 
 
@@ -344,9 +379,9 @@ mainPacman.prototype = {
         this.numerovidas--;
 
 
-        this.pacman.sprite.x = 220;
-        this.pacman.sprite.y = 420;
-        this.pacman.sprite.play('preparar');
+        this.pacman1.sprite.x = 220;
+        this.pacman1.sprite.y = 420;
+        this.pacman1.sprite.play('preparar');
         this.ready.visible = true;
 
         this.game.time.events.add(Phaser.Timer.SECOND*2, this.libertaFantasmas, this);
@@ -360,13 +395,13 @@ mainPacman.prototype = {
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:14, y:17}, Phaser.LEFT);
         this.clyde = new Ghost(this, "ghosts", "clyde", {x:12, y:17}, Phaser.LEFT);
         this.inky = new Ghost(this, "ghosts", "inky", {x:16, y:17}, Phaser.LEFT);
-        this.pacman.sprite.visible = true;
-        this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
+        this.pacman1.sprite.visible = true;
+        this.ghosts1.push(this.blinky,this.pinky,this.clyde, this.inky);
 
     },
 
     acordarPacman: function () {
-        this.pacman.isDead = false;
+        this.pacman1.isDead = false;
     },
 
     jogar: function() {
@@ -390,13 +425,6 @@ mainPacman.prototype = {
     },
 
     update: function () {
-
-        if (this.pad1.connected) {
-            console.log("Conectado") ;
-        }else {
-            console.log("Nao conectado");
-        }
-
 
         this.pontuacaoText.text = this.pontuacao;
 
@@ -425,10 +453,10 @@ mainPacman.prototype = {
             this.up.visible = !this.up.visible;
         }
 
-        if (!this.pacman.isDead) {
-            for (var i=0; i<this.ghosts.length; i++) {
-                if (this.ghosts[i].mode !== this.ghosts[i].RETURNING_HOME) {
-                    this.physics.arcade.overlap(this.pacman.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
+        if (!this.pacman1.isDead) {
+            for (var i=0; i<this.ghosts1.length; i++) {
+                if (this.ghosts1[i].mode !== this.ghosts1[i].RETURNING_HOME) {
+                    this.physics.arcade.overlap(this.pacman1.sprite, this.ghosts1[i].ghost, this.dogEatsDog, null, this);
                 }
             }
 
@@ -443,7 +471,7 @@ mainPacman.prototype = {
                 this.sendExitOrder(this.clyde);
             }
 
-            if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time && !this.pacman.isDead ) {
+            if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time && !this.pacman1.isDead ) {
                 this.currentMode++;
                 this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
                 if (this.TIME_MODES[this.currentMode].mode === "chase") {
@@ -474,7 +502,7 @@ mainPacman.prototype = {
             }
         }
 
-          this.pacman.update();
+          this.pacman1.update();
 
         this.movimentaPacman();
          this.updateGhosts();
@@ -494,8 +522,8 @@ mainPacman.prototype = {
 
 
 
-        for (var i=0; i<this.ghosts.length; i++) {
-            this.ghosts[i].enterFrightenedMode();
+        for (var i=0; i<this.ghosts1.length; i++) {
+            this.ghosts1[i].enterFrightenedMode();
         }
         if (!this.isPaused) {
             this.remainingTime = this.changeModeTimer - this.time.time;
@@ -515,15 +543,15 @@ mainPacman.prototype = {
     },
 
     updateGhosts: function() {
-        for (var i=0; i<this.ghosts.length; i++) {
-            this.ghosts[i].update();
+        for (var i=0; i<this.ghosts1.length; i++) {
+            this.ghosts1[i].update();
         }
     },
 
 
     sendAttackOrder: function() {
-        for (var i=0; i<this.ghosts.length; i++) {
-            this.ghosts[i].attack();
+        for (var i=0; i<this.ghosts1.length; i++) {
+            this.ghosts1[i].attack();
         }
     },
 
@@ -535,8 +563,8 @@ mainPacman.prototype = {
     },
 
     sendScatterOrder: function() {
-        for (var i=0; i<this.ghosts.length; i++) {
-            this.ghosts[i].scatter();
+        for (var i=0; i<this.ghosts1.length; i++) {
+            this.ghosts1[i].scatter();
         }
     }
 };

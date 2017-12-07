@@ -313,11 +313,11 @@ Ghost.prototype = {
     getGhostDestination: function() {
         switch (this.name) {
             case "blinky":
-                return this.game.pacman.getPosition();
+                return this.game.pacman1.getPosition();
 
             case "pinky":
-                var dest = this.game.pacman.getPosition();
-                var dir = this.game.pacman.getCurrentDirection();
+                var dest = this.game.pacman1.getPosition();
+                var dir = this.game.pacman1.getCurrentDirection();
                 var offsetX = 0, offsetY = 0;
                 if (dir === Phaser.LEFT || dir === Phaser.RIGHT) {
                     offsetX = (dir === Phaser.RIGHT) ? -4 : 4;
@@ -339,7 +339,7 @@ Ghost.prototype = {
                 return dest;
 
             case "inky":
-                var pacmanPos = this.game.pacman.getPosition();
+                var pacmanPos = this.game.pacman1.getPosition();
                 var blinkyPos = this.game.blinky.getPosition();
                 var diff = Phaser.Point.subtract(pacmanPos, blinkyPos);
                 var dest = Phaser.Point.add(pacmanPos, diff);
@@ -350,7 +350,7 @@ Ghost.prototype = {
                 return dest;
 
             case "clyde":
-                var pacmanPos = this.game.pacman.getPosition();
+                var pacmanPos = this.game.pacman1.getPosition();
                 var clydePos = this.getPosition();
                 if (clydePos.distance(pacmanPos) > 8 * this.gridsize) {
                     return pacmanPos;
